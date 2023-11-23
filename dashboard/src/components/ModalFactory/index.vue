@@ -2,10 +2,10 @@
   <teleport to="body">
     <div v-if="state.isActive" @click="handleModalToogle({ status: false })"
       class="fixed top-0 left-0 z-50 flex items-center justify-center w-full h-full bg-black bg-opacity-50">
-      <div :class="state.width"
+      <div :class="state.width" @click.stop
         class="flex flex-col overflow-hidden bg-white rounded-lg animate__animated animate__fadeInDown animate__faster">
         <div class="flex flex-col px-12 py-10 bg-white">
-          <component :is="state.component"></component>
+          <component :is="state.component" :="state.props"></component>
         </div>
       </div>
     </div>
@@ -15,13 +15,15 @@
 import { defineAsyncComponent, onBeforeUnmount, onMounted, reactive } from 'vue'
 import useModal from '../../hooks/useModal'
 
-const ModalLogin = defineAsyncComponent(() => import('../ModalLogin/index.vue'))
+const ModalLogin = defineAsyncComponent(() => import('@/components/ModalLogin'))
+const ModalCreateAccount = defineAsyncComponent(() => import('@/components/ModalCreateAccount'))
 
 const DEFAULT_WIDTH = 'w-3/4 lg:w-1/3'
 
 export default {
   components: {
-    ModalLogin
+    ModalLogin,
+    ModalCreateAccount
   },
   setup() {
     const modal = useModal()
