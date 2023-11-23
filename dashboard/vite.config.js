@@ -9,8 +9,19 @@ export default defineConfig({
     vue(),
   ],
   resolve: {
-    alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url))
-    }
-  }
+    alias: [
+      {
+        // This alias resolves any import starting with "@/components" to the corresponding file in the "src/components" directory
+        find: /@\/components\/((?!.*[.](ts|js|tsx|jsx|vue)$).*$)/,
+        replacement: fileURLToPath(
+          new URL("./src/components/$1/index.vue", import.meta.url)
+        ),
+      },
+      {
+        // This alias resolves any import starting with "@" to the "src" directory
+        find: "@",
+        replacement: fileURLToPath(new URL("./src", import.meta.url)),
+      },
+    ],
+  }, 
 })
