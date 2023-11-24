@@ -23,7 +23,7 @@ export default {
           return
         }
 
-        const { data } = await services.users.getMe()
+        const { data } = await services.user.getMe()
         setCurrentUser(data)
       }
     })

@@ -2,7 +2,7 @@ import axios from "axios";
 import AuthService from './auth.js';
 import UserService from './users.js';
 import router from '../router/index.js'
-import { setGlobalStore } from '../store/global.js'
+import { setGlobalLoading } from '../store/global.js'
 
 const API_ENVS = {
   production: '',
@@ -16,34 +16,38 @@ const httpClient = axios.create({
 
 
 httpClient.interceptors.request.use(config => {
-  setGlobalStore(true)
+  setGlobalLoading(true)
   const token = window.localStorage.getItem('token')
 
   if (token) {
-    config.headers.common.Authorization = `Bearer ${token}`
+    config.headers.setAuthorization(`Bearer ${token}`)
   }
   return config
 })
 
 httpClient.interceptors.response.use((response) => {
-  setGlobalStore(false)
+  setGlobalLoading(false)
   return response
 }, (error) => {
   
-  const canThrowAnError = error.request.status === 0 ||
+  let canThrowAnError = false
+  
+  if(error){
+   canThrowAnError = error.request.status === 0 ||
     error.request.status === 500
+  }
 
   if (canThrowAnError) {
-    setGlobalStore(false)
+    setGlobalLoading(false)
     throw new Error(error.message)
   }
 
   if (error.response.status === 401) {
-    setGlobalStore(false)
+    setGlobalLoading(false)
     router.push({ name: 'Home' })
   }
   
-    setGlobalStore(false)
+    setGlobalLoading(false)
   return error
 })
 
