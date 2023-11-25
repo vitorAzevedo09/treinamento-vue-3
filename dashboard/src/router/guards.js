@@ -8,9 +8,9 @@ router.beforeEach(async (to, from, next) => {
         const token = window.localStorage.getItem('token')
         if (!token) {
           next({ name: 'Home' })
-          const { data } = await services.user.getMe()
-          setCurrentUser(data)
         }else {
+          const { data } = await services.users.getMe()
+          setCurrentUser(data)
           next()
         }
       }
