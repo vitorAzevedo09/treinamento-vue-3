@@ -27,7 +27,19 @@
           <icon name="copy" size="24" class="cursor-pointer" />
           <icon name="loading" size="24" class="cursor-pointer ml-3" />
         </div>
+
       </div>
+
+      <p class="mt-5 text-lg text-gray-800 font-regular">
+        Coloque o script abaixo no seu site para começar a receber feedbacks
+      </p>
+
+      <div class="py-3 pl-5 pr-20 mt-2 rounded bg-brand-gray w-full lg:w-2/3 overflow-x-scroll">
+        <pre>
+&lt;script defer async onload="init('{{ store.User.currentUser.apiKey }}')" src="https://igorhalfeld-feedbacker-widget.netlify.app/init.js" &gt;&lt;/script&gt;
+        </pre>
+      </div>
+
     </div>
   </div>
 </template>
